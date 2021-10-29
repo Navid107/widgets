@@ -1,39 +1,50 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <title>Widget</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <title>Document</title>
 </head>
+
 <body>
-    
+  <h1>Wacky Widgets</h1>
 
+  {% if widgets.length == 0 %}
 
-<p>__________________________</p>
-<h1>Add Widget</h1>
-<!-- Leaving the action empty makes the form post to the same url used to display it -->
-<form action="" method="post">
-    <!-- Django requires the following for security purposes -->
+  <h1>Theres no widgets </h1>
+  
+  {% else %}
+    {{widgets.length }}
+    <tr>
+      <th>Description</th>
+      <th>Quantity</th>
+      <th>Remove</th>
+    </tr>
+    <br>
+    <br>
+  <tbody>
+    {% for e in widgets %}
+    <tr>
+      <td>{{e.description}}</td>
+      <td>{{e.quantity}}</td>
+      <td><a href="{% url 'widgets_delete' e.id %}">Delete</a></td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+  </tbody>
+  
+  <h1>Add Widget</h1>
+  <form action="{% url 'widgets_create' %}" method="POST">
     {% csrf_token %}
-    <table>
-        <!-- Render the inputs inside of <tr>s & <td>s -->
-        {{ widgets_form.as_table }}
-    </table>
-    <input type="submit" value="Submit!" class="btn">
-</form>
+    {{ widgets_form.as_p }}
+    <input type="submit" class="btn" value="Add Widget">
+  </form>
+  <br>
 
-{% for widget in widgets %}
-<div class="card">
-    <div class="card-content">
-        <p>Description: {{ widget.description }}</p>
-        <p>Duantity: {{widget.quantity}}</p>
-            
-    </div>
-</div>
-
-{% endfor %}
 </body>
+
 </html>

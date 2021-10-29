@@ -5,5 +5,5 @@ from . import views
 urlpatterns = [
   path('', views.home, name='home'),
   path('create/', views.WidgetCreate.as_view(), name='widgets_create'),
-  path('<int:pk>/delete/', views.WidgetDelete.as_view(), name='widgets_delete'),
+  path('<int:widget_id>/', views.widget_delete, name='widgets_delete'),
 ]
