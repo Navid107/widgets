@@ -1,3 +1,4 @@
+from functools import reduce
 from django.shortcuts import redirect, render
 from .models import Widget
 from django.views.generic import ListView
@@ -10,18 +11,18 @@ from .forms import WidgetForm
 
 class WidgetCreate(CreateView):
     model = Widget
-    fields = ['Description', 'Quantity']
+    fields = '__all__'
     success_url = '/'
 
 class WidgetDelete(DeleteView):
   model = Widget
   success_url = '/'
 
+
+    
+
+
 def home(request):
-  return render(request, 'home.html')
-
-
-def widgets_index(request):
     widgets = Widget.objects.all()
     widgets_form = WidgetForm()
-    return redirect(request, 'home.html', { 'widgets': widgets, 'widgets_form': widgets_form })
+    return render(request, 'home.html', { 'widgets': widgets, 'widgets_form': widgets_form })
